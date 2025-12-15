@@ -14,7 +14,7 @@ mkdir -p "$RESOURCES_DIR"
 
 # Compile Swift code
 echo "Compiling Swift code..."
-swiftc FinderHelperApp.swift FinderBridge.swift \
+swiftc FinderHelperApp.swift FinderBridge.swift HotKeyManager.swift \
     -o "$MACOS_DIR/$APP_NAME" \
     -target arm64-apple-macosx12.0 \
     -sdk $(xcrun --show-sdk-path) \

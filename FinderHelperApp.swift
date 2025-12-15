@@ -26,15 +26,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         setupMenu()
+        
+        // Register Global Hotkeys
+        // Cmd + Option + I (34)
+        HotKeyManager.shared.registerHotKey(keyCode: 34, modifiers: HotKeyManager.carbonCommandKey | HotKeyManager.carbonOptionKey) { [weak self] in
+            self?.openInITerm()
+        }
+        
+        // Cmd + Option + A (0 for QWERTY, 12 for AZERTY)
+        // Registering both ensures it works on both layouts for the key labeled "A"
+        let antigravityAction: () -> Void = { [weak self] in 
+            self?.openInAntigravity()
+        }
+        
+        HotKeyManager.shared.registerHotKey(keyCode: 0, modifiers: HotKeyManager.carbonCommandKey | HotKeyManager.carbonOptionKey, action: antigravityAction)
+        HotKeyManager.shared.registerHotKey(keyCode: 12, modifiers: HotKeyManager.carbonCommandKey | HotKeyManager.carbonOptionKey, action: antigravityAction)
     }
     
     func setupMenu() {
         let menu = NSMenu()
         
         let iTermItem = NSMenuItem(title: "Open in iTerm", action: #selector(openInITerm), keyEquivalent: "i")
+        iTermItem.keyEquivalentModifierMask = [.command, .option]
         menu.addItem(iTermItem)
         
         let antigravityItem = NSMenuItem(title: "Open in Antigravity", action: #selector(openInAntigravity), keyEquivalent: "a")
+        antigravityItem.keyEquivalentModifierMask = [.command, .option]
         menu.addItem(antigravityItem)
         
         menu.addItem(NSMenuItem.separator())
